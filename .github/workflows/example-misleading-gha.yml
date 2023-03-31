@@ -1,0 +1,21 @@
+# Github action with the following functionality:
+# Run on a pull request that changes the following file:
+# misleading_gha.result
+
+# This action will always fail.
+
+name: Misleading GHA
+on:
+  pull_request:
+    paths:
+      - misleading_gha.result
+
+jobs:
+    misleading_gha:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Run misleading GHA
+          run: |
+            echo "This action will always fail."
+            exit 1
+        
