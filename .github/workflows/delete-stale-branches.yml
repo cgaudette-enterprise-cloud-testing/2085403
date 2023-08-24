@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Run script to delete stale branches
         run: |
-          GIT_TRACE=1 GIT_CURL_VERBOSE=1
+          export GIT_TRACE=1 GIT_CURL_VERBOSE=1
           # Set the number of days after which a branch is considered stale
           DAYS=90
 
