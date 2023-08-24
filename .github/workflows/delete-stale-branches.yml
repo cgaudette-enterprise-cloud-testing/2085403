@@ -9,8 +9,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Install Git
-        run: sudo apt-get update && sudo apt-get install git -y
       - name: Run script to delete stale branches
         run: |
           # Set the number of days after which a branch is considered stale
