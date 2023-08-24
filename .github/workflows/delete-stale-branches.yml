@@ -2,8 +2,6 @@ name: Delete Stale Branches
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 0 * * *' # Run the workflow every day at midnight
 
 jobs:
   delete-stale-branches:
@@ -16,7 +14,7 @@ jobs:
       - name: Run script to delete stale branches
         run: |
           # Set the number of days after which a branch is considered stale
-          DAYS=30
+          DAYS=90
 
           # Get a list of all branches that have been merged with main
           MERGED_BRANCHES=$(git branch --merged main | grep -v 'main$')
@@ -38,3 +36,4 @@ jobs:
               echo "Deleted stale branch: $branch"
             fi
           done
+        shell: bash
