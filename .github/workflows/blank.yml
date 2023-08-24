@@ -1,0 +1,40 @@
+name: Delete Stale Branches
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *' # Run the workflow every day at midnight
+
+jobs:
+  delete-stale-branches:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install Git
+        run: sudo apt-get update && sudo apt-get install git -y
+      - name: Run script to delete stale branches
+        run: |
+          # Set the number of days after which a branch is considered stale
+          DAYS=30
+
+          # Get a list of all branches that have been merged with main
+          MERGED_BRANCHES=$(git branch --merged main | grep -v 'main$')
+
+          # Loop through each merged branch
+          for branch in $MERGED_BRANCHES
+          do
+            # Get the date of the last commit on the branch
+            LAST_COMMIT_DATE=$(git log -1 --format=%ct $branch)
+
+            # Calculate the number of days since the last commit
+            DAYS_SINCE_LAST_COMMIT=$(( ($(date +%s) - $LAST_COMMIT_DATE) / 86400 ))
+
+            # If the branch is stale, delete it
+            if [ $DAYS_SINCE_LAST_COMMIT -gt $DAYS ]
+            then
+              git branch -D $branch
+              git push origin --delete $branch
+              echo "Deleted stale branch: $branch"
+            fi
+          done
