@@ -18,7 +18,7 @@ jobs:
           DAYS=90
 
           # Get a list of all branches that have been merged with main
-          MERGED_BRANCHES=$(git branch --merged main | grep -v 'main$')
+          MERGED_BRANCHES=$(git branch --merged main | grep -v '$main')
 
           # Loop through each merged branch
           for branch in $MERGED_BRANCHES
